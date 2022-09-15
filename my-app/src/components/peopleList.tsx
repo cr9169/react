@@ -3,26 +3,27 @@ import IPerson from '../interfaces/Person';
 
 
 interface IProps{
-    people: IPerson[];
+    peopleList: IPerson[];
+    setPeopleList: React.Dispatch<React.SetStateAction<IPerson[]>>;
 }
 
-const PeopleList: React.FC<IProps> = ({people}) => {
+const PeopleList: React.FC<IProps> = ({peopleList, setPeopleList}) => {
 
-    const [personList, setPersonList] = useState<IPerson[]>(people);
+    // const [personList, setPersonList] = useState<IPerson[]>(people);
 
     const deletePerson = (index: number): void => {
-        const newPersonList = personList;
+        const newPersonList = peopleList;
         newPersonList?.splice(index, 1);
-        setPersonList(newPersonList);
+        setPeopleList([...newPersonList!]);
     }
 
-    return <div><ul>{people.map((person: IPerson) => <div>
-        <input onClick={() => {deletePerson}} id='peopleList[peopleList]' type="button" value="delete"></input>
-        <li> {person.firstName}</li>
-        <li> {person.lastName}</li>
+    return <div><ul>{peopleList!.map((person: IPerson, index: number) =>  <div>
+        <input onClick={() => deletePerson(index)} disabled={index === 4} id='peopleList[peopleList]' type="button" value="delete"></input>
+        <li style={{ color: person.age > 20 ? "red" : "black" }}> {person.firstName}</li>
+        <li style={{ color: person.age > 20 ? "red" : "black" }}> {person.lastName}</li>
         <li> {person.email}</li>
         <li> {person.age}</li><br /><br /></div>)}</ul>
-        <input id='peopleList[peopleList.length]' type="button" value="delete"></input></div>
+        </div> 
 }
 
 export default PeopleList;
