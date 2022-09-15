@@ -1,41 +1,55 @@
-import React from 'react';
+import { stringify } from 'querystring';
+import React, { useState } from 'react';
+import IPerson from '../interfaces/Person';
 import "./inputsStyles.css";
+import PeopleList from './peopleList';
 
-class Inputs extends React.Component {
-
-    constructor(props: any) {
-      super(props);
-      this.firstNameState = {value: ''};
-      this.lastNameState = {value: ''};
-      this.age = {value: ''};
-      this.email = {value: ''};
-      
-      this.handleChange = this.handleChange.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleChange(event: any) {
-      this.setState({value: event.target.value});
+function isNumber(str: string): boolean {
+    if (typeof str !== 'string') {
+      return false;
     }
   
-    handleSubmit(event: any) {
-      alert('A name was submitted: ' + this.state.value);
-      event.preventDefault();
+    if (str.trim() === '') {
+      return false;
     }
   
-    render() {
-        return ( 
-            <form onSubmit={this.handleSubmit}>
-                <div>
-                    <div id='inputs'>
-                        <input type="text" value={this.state.value} onChange={this.handleChange}/>
-                        <input type="text" value={this.state.value} onChange={this.handleChange}/>
-                        <input type="text" value={this.state.value} onChange={this.handleChange}/>
-                        <input type="text" value={this.state.value} onChange={this.handleChange}/>
-                    </div>
-                    <input type="submit" value="Submit" id='submit'/>
-                </div> 
-            </form>
-        );
+    return !Number.isNaN(Number(str));
+}
+
+
+const peopleList: IPerson[] = [{firstName: 'a', lastName: 'b', age: 1, email: 'e'}];
+
+
+const Inputs: React.FC = () => {
+
+    const [person, setPerson] = useState<IPerson | null>();
+
+    // const changeHandler = (e: any) => {
+    //         setPerson({...person, [e.target?.name]:[e.target?.value]});
+    // };
+
+    const submitHandler = (e: any) => {
+        e.preventDefault();
+        const {firstName, lastName, email, age} = e.target;
+        console.log({firstName: firstName.value, lastName: lastName.value, email: email.value, age: +age.value});// change to add form of person to the list component 
     }
-  }
+
+    return ( <div>
+        <form onSubmit={submitHandler}>
+            <div id='inputs'>
+                <span>First Name:</span>
+                <input type="text" name="firstName" />
+                <span>Last Name:</span>
+                <input type="text" name="lastName"/>
+                <span>Email:</span>
+                <input type="text" name="email" />
+                <span>Age:</span>
+                <input type="number" name="age"/>
+            </div>
+            <input  type="submit" name="submit" id='submit'/>
+        </form>
+        <PeopleList people={peopleList}/>
+    </div> );
+}
+
+export default Inputs;
