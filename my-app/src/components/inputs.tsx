@@ -1,4 +1,3 @@
-import { stringify } from 'querystring';
 import React, { useState } from 'react';
 import IPerson from '../interfaces/Person';
 import "./inputsStyles.css";
@@ -18,7 +17,6 @@ function isNumber(str: string): boolean {
 
 
 const peopleList: IPerson[] = [{firstName: 'a', lastName: 'b', age: 1, email: 'e'}];
-
 
 const Inputs: React.FC = () => {
 
