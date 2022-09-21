@@ -9,8 +9,6 @@ interface IProps{
 
 const PeopleList: React.FC<IProps> = ({peopleList, setPeopleList}) => {
 
-    // const [personList, setPersonList] = useState<IPerson[]>(people);
-
     const deletePerson = (index: number): void => {
         const newPersonList = peopleList;
         newPersonList?.splice(index, 1);
